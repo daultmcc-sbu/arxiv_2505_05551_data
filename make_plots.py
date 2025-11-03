@@ -150,6 +150,10 @@ chern_and_gap('raw/scan_50nm_-30_30_70_-42_42_70.npz', 'triag50nm_')
 chern_and_gap('raw/scan_b1_-50_50_70_-70_70_70.npz', 'triagb1_')
 chern_and_gap('raw/scan_sq_-50_50_70_-70_70_70.npz', 'sqb0_')
 chern_and_gap('raw/scan_sq_b1_-50_50_70_-70_70_70.npz', 'sqb1_')
+chern_and_gap('raw/scan_a0.2_-50_50_70_-70_70_70.npz', 'a0.2_')
+chern_and_gap('raw/scan_-50_50_70_-70_70_70.npz', 'a0.3_')
+chern_and_gap('raw/scan_a0.4_-50_50_70_-70_70_70.npz', 'a0.4_')
+chern_and_gap('raw/scan_a1_-50_50_70_-70_70_70.npz', 'a1.0_')
 
 data = np.load('raw/scanl_t0.05_bq30_600_-600_20_50_20.npz')
 
@@ -165,7 +169,7 @@ ax5.plot(l, width, label=r"$W$", color='tab:red')
 ax5.plot(l, 144/l, c='black', ls='--', label=r"$U_c$")
 ax5.fill_between(l, 96 / l, 288 / l, color='black', alpha = 0.1, linewidth=0)
 ax5.legend()
-ax6.set_xticks([20,25,30,35,40,45,50])
+ax5.set_xticks([20,25,30,35,40,45,50])
 ax5.set_yticks([5,10,15,20])
 ax5.set_xlabel(r"$L$ (nm)")
 ax5.set_ylabel(r"(meV)")
@@ -180,6 +184,34 @@ fig5.tight_layout()
 fig6.tight_layout()
 fig5.savefig('plots/lE.png', bbox_inches='tight', dpi=fig5.dpi)
 fig6.savefig('plots/lgeom.png', bbox_inches='tight', dpi=fig6.dpi)
+
+data = np.load('raw/scana_39_-30_0.1_1_100.npz')
+
+a = data['a']
+gap, width, trvioliso, berryfluc = [data[o] for o in ['bandwidth', 'bandgap',  'berryfluctuation', 'tracecondviolation']]
+
+fig7, ax7 = plt.subplots(figsize=(5,4))
+fig8, ax8 = plt.subplots(figsize=(5,4))
+# fig7, ax7 = plt.subplots()
+
+ax7.plot(a, gap, label=r"$\Delta$")
+ax7.plot(a, width, label=r"$W$", color='tab:red')
+ax7.legend()
+ax7.set_xticks([0.2,0.4,0.6,0.8,1])
+ax7.set_yticks([5,10,15,20])
+ax7.set_xlabel(r"$\alpha$")
+ax7.set_ylabel(r"(meV)")
+
+ax8.plot(a, trvioliso / 2 / np.pi, color='tab:blue', label=r"$\overline{T}/2\pi$")
+ax8.plot(a, berryfluc, color='tab:red', label=r"$F$")
+ax8.legend()
+ax8.set_xlabel(r"$\alpha$")
+ax8.set_xticks([0.2,0.4,0.6,0.8,1])
+
+fig7.tight_layout()
+fig8.tight_layout()
+fig7.savefig('plots/aE.png', bbox_inches='tight', dpi=fig7.dpi)
+fig8.savefig('plots/ageom.png', bbox_inches='tight', dpi=fig8.dpi)
 
 def single(raw, name):
     data = np.load(raw)
@@ -198,7 +230,7 @@ def single(raw, name):
     focus_range = 1.2 * Es[:, focus-5:focus+6]
     yscale = np.abs(focus_range).max()
     ax1.set_ylim(-yscale, yscale)
-    
+
     labels = list(hs_labels)
     labels.append(labels[0])
     ax1.set_xticks(ticks=hs_ts, labels=labels)
@@ -229,4 +261,4 @@ def single(raw, name):
 single('raw/single_30_-30.npz', 'triag_single_')
 single('raw/single_sq_30_30.npz', 'sq_single_')
 
-# plt.show()
+plt.show()
