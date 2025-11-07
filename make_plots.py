@@ -155,7 +155,7 @@ chern_and_gap('raw/scan_-50_50_70_-70_70_70.npz', 'a0.3_')
 chern_and_gap('raw/scan_a0.4_-50_50_70_-70_70_70.npz', 'a0.4_')
 chern_and_gap('raw/scan_a1_-50_50_70_-70_70_70.npz', 'a1.0_')
 
-data = np.load('raw/scanl_t0.05_bq30_600_-600_20_50_20.npz')
+data = np.load('raw/scanl_20_50_20.npz')
 
 l = data['l']
 gap, width, trvioliso, berryfluc = [data[o] for o in ['bandwidth', 'bandgap',  'berryfluctuation', 'tracecondviolation']]
